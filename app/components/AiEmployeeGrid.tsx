@@ -159,7 +159,7 @@ const AiEmployeeGrid: React.FC = () => {
                 industryName={employee.industryName}
                 role={employee.role}
                 lastUpdated={new Date(employee.updatedAt).toLocaleDateString()}
-                image={`/api/${employee.image}`}
+                image={`${process.env.NEXT_PUBLIC_SERVER_URL}/${employee.image}`}
               />
             </div>
           ))}
