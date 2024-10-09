@@ -42,7 +42,8 @@ const decryptSso = async (key: string): Promise<DecryptSsoResponseData> => {
   if (apiResponse.status !== "success") {
     throw new Error("API response indicates failure");
   }
-
+  
+  console.log(apiResponse.data);
   return apiResponse.data;
 };
 

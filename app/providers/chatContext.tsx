@@ -3,6 +3,7 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
 import { useChatGPTRequest } from "../hooks/useChatGptRequest";
 import { useClaudeRequest } from "../hooks/useClaudeRequest";
+import { useUserContext } from "./userContext";
 
 // Define message and model types
 interface MessageContent {
@@ -68,6 +69,7 @@ interface ChatProviderProps {
 }
 
 export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
+  const {ssoKey}=useUserContext();
   const [activeModel, setActiveModel] = useState<string | null>(null);
   const [activeModelKey, setActiveModelKey] = useState<string | null>(null);
   const [messages, setMessages] = useState<Messages>({
@@ -158,6 +160,7 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
             threadId: gptThreadId,
             apiKey:activeModelKey!,
             setThreadId: setGptThreadId,
+            ssoKey:ssoKey!,
             onChunk: (chunk: string) => {
               streamedResponse += chunk;
               setStreamingMessage(streamedResponse);
@@ -175,6 +178,7 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
             message: newMessage,
             previousMessages: messages[Models.CLAUDE],
             apiKey:activeModelKey!,
+            ssoKey:ssoKey!,
             onChunk: (chunk: string) => {
               streamedResponse += chunk;
               setStreamingMessage(streamedResponse);

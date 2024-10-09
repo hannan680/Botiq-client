@@ -24,7 +24,7 @@ const LoadingOrSuccessAnimationModal: React.FC<LoadingOrSuccessAnimationModalPro
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-65 flex items-center justify-center z-40">
-      <div className="bg-[#1C1C1E] rounded-lg py-14 px-12 w-full max-w-[700px] relative">
+      <div className="bg-[#fff] rounded-lg py-14 px-12 w-full max-w-[700px] relative">
         {loading && (
           <div className="text-center">
             <div className="h-72">
@@ -35,7 +35,7 @@ const LoadingOrSuccessAnimationModal: React.FC<LoadingOrSuccessAnimationModalPro
                 speed={0.3}
               />
             </div>
-            <p className="text-white mb-8">
+            <p className="text-black mb-8">
               Please Wait, Employee is in process
             </p>
           </div>
@@ -50,12 +50,12 @@ const LoadingOrSuccessAnimationModal: React.FC<LoadingOrSuccessAnimationModalPro
                 speed={0.3}
               />
             </div>
-            <p className="text-white mb-8">
+            <p className="text-black mb-8">
               Your AI Employee has been created successfully.
             </p>
             <button
               onClick={onGoBack}
-              className="bg-green-400 text-black py-2 px-4 rounded-lg"
+                className="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 transition duration-200"
             >
               Go Back Home
             </button>

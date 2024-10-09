@@ -9,6 +9,7 @@ import { useUserContext } from "@/app/providers/userContext";
 import { useDeployCustomEmployee } from "@/app/hooks/useDeployCustomEmployee";
 import LoadingOrSuccessAnimationModal from "./LoadingOrSuccessOrErrorModal";
 import { useRouter } from "next/navigation";
+import DeployEmployee from "./DeployEmployee";
 
 export const TestArea: React.FC = () => {
   const {
@@ -34,20 +35,14 @@ export const TestArea: React.FC = () => {
   const [isSuccessDeploying, setIsSuccessDeploying] = useState(false);
   const [isErrorDeploying, setIsErrorDeploying] = useState(false);
 
-  const { mutate:deployCustomEmployee, isPending, isSuccess, isError, error } = useDeployCustomEmployee();
+  const { mutate:deployCustomEmployee, isPending:isPendingDeploying, isSuccess:isDeployed, isError, error } = useDeployCustomEmployee();
+  
   const router =useRouter();
 
   const scrollViewportRef = useRef<HTMLDivElement | null>(null); // Reference to the scrollable viewport
   const [isAutoScrollEnabled, setIsAutoScrollEnabled] = useState<boolean>(true); // Auto-scroll state
 
-  // useEffect(() => {
-  //   if (scrollViewportRef.current) {
-  //     const scrollView = scrollViewportRef.current.querySelector(
-  //       "[data-radix-scroll-area-viewport]"
-  //     ) as HTMLElement;
-  //     scrollView.scrollTop = scrollView.scrollHeight;
-  //   }
-  // }, [messages, streamingMessage]);
+  
   // Scroll to bottom whenever messages change, only if auto scroll is enabled
   useEffect(() => {
     if (scrollViewportRef.current && isAutoScrollEnabled) {
@@ -121,66 +116,6 @@ export const TestArea: React.FC = () => {
 };
 
 
-const handleDeploy = async () => {
-  if (generatedPrompt !== "") {
-    let prompt = generatedPrompt;
-    setIsDeploying(true);
-    try {
-      if (refinementMessageIndices.length !== 0) {
-        const updatedPrompt = {
-          role: "user",
-          content: [
-            {
-              type: "text",
-              text: "Based on the refinements, give me an updated prompt",
-            },
-          ],
-        };
-        setPromptMessageIndices((prevIndices) => [
-          ...prevIndices,
-          messages[activeModel!].length,
-        ]);
-
-        const updatedResponse = await sendMessageToModel(updatedPrompt);
-        console.log(updatedResponse);
-        console.log(prompt);
-        if (
-          updatedResponse?.prompt !== null &&
-          updatedResponse?.prompt !== undefined
-        ) {
-          prompt = updatedResponse.prompt;
-        }
-      }
-      // Proceed with deployment
-      if (userData && userData.activeLocation) {
-        const { activeLocation } = userData;
-        const locationId = activeLocation;
-        deployCustomEmployee(
-          {
-            locationId,
-            generatedPrompt: prompt,
-          },
-          {
-            onSuccess: () => {
-              resetContext();
-              setIsSuccessDeploying(true);
-              setIsDeploying(false);
-            },
-            onError: (error) => {
-              setIsErrorDeploying(true);
-              setIsDeploying(false);
-            },
-          }
-        );
-      }else{
-        setIsErrorDeploying(true);
-      }
-    } catch (error) {
-      setIsErrorDeploying(true);
-      setIsDeploying(false);
-    }
-  }
-};
 
 
   if(!generatedPrompt){
@@ -199,7 +134,6 @@ const handleDeploy = async () => {
 
   return (
     <div className="flex-1 flex flex-col border-0 rounded-none">
-
       <RefinementSidePanel
         isVisible={showRefinementModal}
         onClose={() => {
@@ -208,20 +142,12 @@ const handleDeploy = async () => {
         }}
         onSubmit={handleRefinePrompt}
       />
-      <LoadingOrSuccessAnimationModal show={isDeploying || isSuccessDeploying || isErrorDeploying }  loading={isDeploying} success={isSuccessDeploying} onClose={()=>{
-        setIsDeploying(false)
-        setIsSuccessDeploying(false)
-        setIsErrorDeploying(false)
-      } } onGoBack={()=>{
-  router.replace("/")
-      }} error={isErrorDeploying ? "Error deploying employee please try later!":null}/>
+    
      {generatedPrompt && <div className="border-t p-5 bg-gray-50 rounded-b-lg flex items-center justify-end">
         {!testMessageIndex && <button onClick={handleTestClick} className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-all">
          Test
         </button>}
-        <button onClick={handleDeploy} className="ml-3 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-all">
-          Deploy
-        </button>
+        <DeployEmployee generatedPrompt={generatedPrompt} />
       </div>}
       <div className="h-[calc(100vh-150px)] p-4 overflow-y-auto" ref={scrollViewportRef}>
         {messages[activeModel!].map((message, index) => (

@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { useDeployCustomEmployee } from "@/app/hooks/useDeployCustomEmployee";
 import { useUserContext } from "@/app/providers/userContext";
 import LoadingOrSuccessAnimationModal from "./LoadingOrSuccessOrErrorModal";
+import DeployEmployee from "./DeployEmployee";
 
 export const PromptArea: React.FC = () => {
   const {    
@@ -32,7 +33,7 @@ export const PromptArea: React.FC = () => {
   const [isSuccessDeploying, setIsSuccessDeploying] = useState(false);
   const [isErrorDeploying, setIsErrorDeploying] = useState(false);
 
-  const { mutate:deployCustomEmployee, isPending, isSuccess, isError, error } = useDeployCustomEmployee();
+  const { mutate:deployCustomEmployee, isPending:isPendingDeploying, isSuccess:isDeployed, isError, error } = useDeployCustomEmployee();
 
 
   const handleTestClick = async () => {
@@ -114,20 +115,14 @@ const handleDeploy = async () => {
 
   return (
     <div className="flex-1 flex flex-col bg-white border border-gray-300 shadow-md rounded-lg">
-        <LoadingOrSuccessAnimationModal show={isDeploying || isSuccessDeploying || isErrorDeploying }  loading={isDeploying} success={isSuccessDeploying} onClose={()=>{
-        setIsDeploying(false)
-        setIsSuccessDeploying(false)
-        setIsErrorDeploying(false)
-      } } onGoBack={()=>{
-  router.replace("/")
-      }} error={isErrorDeploying ? "Error deploying employee please try later!":null}/>
      {generatedPrompt && <div className="border-t p-5 bg-gray-50 rounded-b-lg flex items-center justify-end">
         <button onClick={handleTestClick} className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-all">
          Test
         </button>
-        <button onClick={handleDeploy} className="ml-3 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-all">
+        {/* <button onClick={handleDeploy} className="ml-3 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-all">
           Deploy
-        </button>
+        </button> */}
+        <DeployEmployee generatedPrompt={generatedPrompt} />
       </div>}
 
       {/* Card Content */}

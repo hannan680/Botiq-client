@@ -105,6 +105,7 @@ type ClaudeRequestParams = {
   previousMessages: unknown[];
   onChunk: (chunk: string) => void;
   apiKey: string;
+  ssoKey:string;
 };
 
 type ClaudeResponse = {
@@ -116,7 +117,8 @@ const claudeRequest = async (
   message: unknown,
   previousMessages: unknown[],
   onChunk: (chunk: string) => void,
-  apiKey: string
+  apiKey: string,
+  ssoKey:string
 ): Promise<ClaudeResponse> => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_SERVER_URL}/aiChat/claude`,
@@ -127,7 +129,8 @@ const claudeRequest = async (
       },
       body: JSON.stringify({ 
         messages: [...previousMessages, message],
-        apiKey 
+        apiKey ,
+        ssoKey
       }),
     }
   );
@@ -192,7 +195,7 @@ const claudeRequest = async (
 export const useClaudeRequest = () => {
   return useMutation({
     mutationKey: ["claudeRequest"],
-    mutationFn: ({ message, previousMessages, onChunk, apiKey }: ClaudeRequestParams) =>
-      claudeRequest(message, previousMessages, onChunk, apiKey),
+    mutationFn: ({ message, previousMessages, onChunk, apiKey,ssoKey }: ClaudeRequestParams) =>
+      claudeRequest(message, previousMessages, onChunk, apiKey,ssoKey),
   });
 };

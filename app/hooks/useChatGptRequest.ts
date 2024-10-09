@@ -118,6 +118,8 @@ type ChatGPTRequestParams = {
   threadId: string | null;
   setThreadId: (id: string) => void;
   apiKey: string;
+  ssoKey: string;
+
 };
 
 type ChatGPTResponse = {
@@ -130,7 +132,9 @@ const chatGPTRequest = async (
   onChunk: (chunk: string) => void,
   threadId: string | null,
   setThreadId: (id: string) => void,
-  apiKey: string
+  apiKey: string,
+  ssoKey: string
+
 ): Promise<ChatGPTResponse> => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_SERVER_URL}/aiChat/chatgpt`,
@@ -139,7 +143,7 @@ const chatGPTRequest = async (
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ message, threadId, apiKey }),
+      body: JSON.stringify({ message, threadId, apiKey,ssoKey }),
     }
   );
 
@@ -207,7 +211,7 @@ const chatGPTRequest = async (
 export const useChatGPTRequest = () => {
   return useMutation({
     mutationKey: ["chatgptRequest"],
-    mutationFn: ({ message, onChunk, threadId, setThreadId, apiKey }: ChatGPTRequestParams) =>
-      chatGPTRequest(message, onChunk, threadId, setThreadId, apiKey),
+    mutationFn: ({ message, onChunk, threadId, setThreadId, apiKey,ssoKey }: ChatGPTRequestParams) =>
+      chatGPTRequest(message, onChunk, threadId, setThreadId, apiKey,ssoKey),
   });
 };

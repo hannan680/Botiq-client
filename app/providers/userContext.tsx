@@ -13,6 +13,7 @@ interface UserData {
 }
 
 interface UserContextType {
+  ssoKey:string | null,
   userData: UserData | null;
   setUserData: (data: UserData | null) => void;
   getUserData: () => Promise<void>;
@@ -76,6 +77,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   },[isError])
 
   useEffect(() => {
+    console.log(decryptedSsoData);
     if (decryptedSsoData) {
       try {
         setUserData(decryptedSsoData as UserData);
@@ -92,11 +94,13 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <UserContext.Provider value={{ 
+      ssoKey,
       userData, 
       setUserData, 
-      getUserData, 
+      getUserData,    
       isLoading: isLoading || isDecrypting, 
       error 
+      
     }}>
       {children}
     </UserContext.Provider>
