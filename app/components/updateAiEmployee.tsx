@@ -105,7 +105,7 @@ export function UpdateAiEmployee({
           loop
           autoplay
         />
-        <h4 className="text-white text-center">{isSaving ? "Ai Employee is updating..." :"Getting Data..."} </h4>
+        <h4 className="text-white text-center">{isSaving ? "Prompt is updating..." :"Getting Data..."} </h4>
       </div>
     );
   }
