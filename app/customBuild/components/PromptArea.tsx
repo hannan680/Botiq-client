@@ -25,7 +25,7 @@ export const PromptArea: React.FC = () => {
    
      } = useChatContext();
 
-     const {userData} = useUserContext();
+     const {userData,ssoKey} = useUserContext();
 
      const router=useRouter()
 
@@ -74,8 +74,7 @@ const handleDeploy = async () => {
         ]);
 
         const updatedResponse = await sendMessageToModel(updatedPrompt);
-        console.log(updatedResponse);
-        console.log(prompt);
+      
         if (
           updatedResponse?.prompt !== null &&
           updatedResponse?.prompt !== undefined
@@ -91,6 +90,7 @@ const handleDeploy = async () => {
           {
             locationId,
             generatedPrompt: prompt,
+            ssoKey:ssoKey!
           },
           {
             onSuccess: () => {

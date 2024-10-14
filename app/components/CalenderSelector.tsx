@@ -12,7 +12,7 @@ const CalendarSelector: React.FC = () => {
   const [calendarToSelect, setCalendarToSelect] = useState<{ name: string; id: string } | null>(null);
 
   // Access user data from context
-  const { userData } = useUserContext();
+  const { userData ,ssoKey} = useUserContext();
   const activeLocation = userData?.activeLocation;
 
   // Use the custom hook to fetch calendars based on activeLocation
@@ -47,6 +47,7 @@ const CalendarSelector: React.FC = () => {
         locationId: userData?.activeLocation!, // Adjust this if necessary
         name: "Calendar ID",
         value: calendarToSelect.id,
+        ssoKey:ssoKey!
       });
     }
     setIsModalOpen(false);

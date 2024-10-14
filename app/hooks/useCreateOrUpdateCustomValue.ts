@@ -5,6 +5,7 @@ interface CreateOrUpdateCustomValueParams {
   locationId: string; // Assuming locationId is a string
   name: string;       // The name of the custom value
   value: any;        // You might want to specify a more precise type here based on your application's needs
+  ssoKey:string;
 }
 
 // Define the type for the response
@@ -17,6 +18,7 @@ const createOrUpdateCustomValue = async ({
   locationId,
   name,
   value,
+  ssoKey
 }: CreateOrUpdateCustomValueParams): Promise<CustomValueResponse> => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_SERVER_URL}/customValue/createOrUpdate/${locationId}`,
@@ -28,6 +30,7 @@ const createOrUpdateCustomValue = async ({
       body: JSON.stringify({
         name: name,
         value: value,
+        ssoKey:ssoKey,
       }),
     }
   );

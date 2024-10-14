@@ -109,7 +109,6 @@ export function UpdateAiEmployee({
       </div>
     );
   }
-  console.log(promptData)
 
   if(answers.length === 0){
         return (

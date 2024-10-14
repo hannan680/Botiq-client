@@ -54,7 +54,6 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         window.addEventListener("message", handleMessage);
         window.parent.postMessage({ message: "REQUEST_USER_DATA" }, "*");
       });
-      console.log("Received SSO key:", key);
       setSsoKey(key);
     } catch (error) {
       console.error("Failed to get user data:", error);
@@ -77,7 +76,6 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   },[isError])
 
   useEffect(() => {
-    console.log(decryptedSsoData);
     if (decryptedSsoData) {
       try {
         setUserData(decryptedSsoData as UserData);

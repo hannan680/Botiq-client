@@ -21,7 +21,6 @@ interface ApiResponse {
 }
 
 const decryptSso = async (key: string): Promise<DecryptSsoResponseData> => {
-  console.log("sending decrypt request");
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/decrypt-sso`,
     {
@@ -33,7 +32,6 @@ const decryptSso = async (key: string): Promise<DecryptSsoResponseData> => {
       body: JSON.stringify({ key }),
     }
   );
-  console.log("decrypt response",response)
   if (!response.ok) {
     throw new Error("Failed to decrypt SSO");
   }
@@ -44,7 +42,6 @@ const decryptSso = async (key: string): Promise<DecryptSsoResponseData> => {
     throw new Error("API response indicates failure");
   }
   
-  console.log(apiResponse.data);
   return apiResponse.data;
 };
 

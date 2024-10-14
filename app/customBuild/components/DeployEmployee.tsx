@@ -14,7 +14,7 @@ interface DeployEmployeeProps {
 
 const DeployEmployee: React.FC<DeployEmployeeProps> = ({ generatedPrompt }) => {
   const { sendMessageToModel, resetContext, setPromptMessageIndices, refinementMessageIndices, activeModel, messages } = useChatContext();
-  const { userData } = useUserContext();
+  const { userData,ssoKey } = useUserContext();
   const router = useRouter();
 
   const [isDeploying, setIsDeploying] = useState(false);
@@ -51,7 +51,7 @@ const DeployEmployee: React.FC<DeployEmployeeProps> = ({ generatedPrompt }) => {
           const { activeLocation } = userData;
           const locationId = activeLocation;
           deployCustomEmployee(
-            { locationId, generatedPrompt: prompt },
+            { locationId, generatedPrompt: prompt,ssoKey:ssoKey! },
             {
               onSuccess: () => {
                 // resetContext();

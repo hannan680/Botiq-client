@@ -11,6 +11,7 @@ import LoadingOrSuccessAnimationModal from "./LoadingOrSuccessOrErrorModal";
 import { useRouter } from "next/navigation";
 import DeployEmployee from "./DeployEmployee";
 import { FlaskConical } from "lucide-react";
+import ChatInputForm from "./ChatInputForm";
 
 export const TestArea: React.FC = () => {
   const {
@@ -42,6 +43,7 @@ export const TestArea: React.FC = () => {
 
   const scrollViewportRef = useRef<HTMLDivElement | null>(null); // Reference to the scrollable viewport
   const [isAutoScrollEnabled, setIsAutoScrollEnabled] = useState<boolean>(true); // Auto-scroll state
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   
   // Scroll to bottom whenever messages change, only if auto scroll is enabled
@@ -68,6 +70,7 @@ export const TestArea: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true);
     if (!inputValue.trim()) return;
 
     const newMessage = {
@@ -77,6 +80,8 @@ export const TestArea: React.FC = () => {
 
     setInputValue("");
     await sendMessageToModel(newMessage);
+    setIsLoading(false);
+
   };
 
   const handleDislikeResponse = (message: string) => {
@@ -85,6 +90,8 @@ export const TestArea: React.FC = () => {
   };
 
   const handleRefinePrompt = async (feedback: string) => {
+    setIsLoading(true);
+
     const refineMessagePrompt = {
       role: "user",
       content: [
@@ -100,9 +107,13 @@ export const TestArea: React.FC = () => {
       messages[activeModel!].length,
     ]);
     await sendMessageToModel(refineMessagePrompt);
+    setIsLoading(false);
+
   };
 
   const handleTestClick = async () => {
+    setIsLoading(true);
+
     const testMessage = {
       role: "user",
       content: [
@@ -113,7 +124,9 @@ export const TestArea: React.FC = () => {
       ],
     };
     await setTestMessageIndex(messages[activeModel!].length);
-    sendMessageToModel(testMessage);
+    await sendMessageToModel(testMessage);
+    setIsLoading(false);
+
 };
 
 
@@ -192,18 +205,25 @@ export const TestArea: React.FC = () => {
       </div>
       <footer className="border-t p-4">
         {generatedPrompt && testMessageIndex && (
-          <form className="flex w-full items-center space-x-2" onSubmit={handleSubmit}>
-            <input
-              type="text"
-              placeholder="Type your message..."
-              className="flex-1 h-[50px] px-5 border rounded-md bg-gray-200 text-gray-900"
-              value={inputValue}
-              onChange={handleInputChange}
-            />
-            <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
-              Send
-            </button>
-          </form>
+          // <form className="flex w-full items-center space-x-2" onSubmit={handleSubmit}>
+          //   <input
+          //     type="text"
+          //     placeholder="Type your message..."
+          //     className="flex-1 h-[50px] px-5 border rounded-md bg-gray-200 text-gray-900"
+          //     value={inputValue}
+          //     onChange={handleInputChange}
+          //   />
+          //   <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+          //     Send
+          //   </button>
+          // </form>
+           <ChatInputForm
+           inputValue={inputValue}
+           handleInputChange={handleInputChange}
+           handleSubmit={handleSubmit}
+           streamingMessage={streamingMessage}
+           isLoading={isLoading}
+         />
         )}
       </footer>
     </div>

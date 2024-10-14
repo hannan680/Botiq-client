@@ -29,7 +29,6 @@ export function CreateAiEmployee({
   const { mutate: savePrompt, isPending: isSaving } = useSavePrompt(); // Use the save prompt hook
   const { userData } = useUserContext();
   const { activeLocation } = userData!;
-console.log(employeeId,"employeeid")
   // Handle change in the answer input
   const handleAnswerChange = (index: number, value: string) => {
     const updatedAnswers = [...answers];
@@ -44,8 +43,7 @@ console.log(employeeId,"employeeid")
 
 // Validate the current set of answers
 const validateAnswers = (): boolean => {
-    console.log("in validate")
-    console.log(errors)
+  
     
     const newErrors = [...errors];
     const currentQuestions = questions.slice(currentIndex, currentIndex + 2);
@@ -62,7 +60,6 @@ const validateAnswers = (): boolean => {
     });
 
     setErrors(newErrors);
-    console.log(newErrors);
 
     // Return true only if no errors were found
     return !hasError; // Return true if no errors exist
@@ -73,10 +70,8 @@ const validateAnswers = (): boolean => {
 
   // Handle the next step logic, including validation and submission
   const handleNext = () => {
-    console.log("first")
 
     if (validateAnswers()) {
-        console.log("validated");
       if (currentIndex + 2 < questions.length) {
         setCurrentIndex(currentIndex + 2);
       } else {
@@ -114,7 +109,8 @@ const validateAnswers = (): boolean => {
        loop
        autoplay
     />
-    <h4 className="text-white text-center">Ai Employee is in process...</h4>
+    <h4 className="text-white text-center">Please Wait, Integrating this prompt into your Custom Value
+    ...</h4>
       </div>
     )
   }

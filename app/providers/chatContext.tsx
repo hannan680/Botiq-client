@@ -149,7 +149,6 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
             },
           ],
         }));
-        console.log(errorMessage);
         reject(new Error(errorMessage));
       };
 

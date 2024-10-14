@@ -41,6 +41,9 @@ export const ChatArea = () => {
   const [inputValue, setInputValue] = useState<string>("");
   const [showRefinementModal, setShowRefinementModal] = useState<boolean>(false);
   const [disLikeMessage, setDisLikeMessage] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+
 
   const scrollViewportRef = useRef<HTMLDivElement | null>(null);
   const [isAutoScrollEnabled, setIsAutoScrollEnabled] = useState<boolean>(true); // Auto-scroll state
@@ -71,6 +74,8 @@ export const ChatArea = () => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+
+    setIsLoading(true);
     if (!inputValue.trim()) return;
 
     const newMessage: Message = {
@@ -80,6 +85,7 @@ export const ChatArea = () => {
 
     setInputValue("");
     await sendMessageToModel(newMessage);
+    setIsLoading(false);
   };
 
   const handleSendPredefinedPrompt = async () => {
@@ -240,6 +246,7 @@ export const ChatArea = () => {
             handleInputChange={handleInputChange}
             handleSubmit={handleSubmit}
             streamingMessage={streamingMessage}
+            isLoading={isLoading || messages[activeModel].length===1}
           />
         )}
       </div>

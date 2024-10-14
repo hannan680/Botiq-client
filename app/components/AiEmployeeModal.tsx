@@ -25,7 +25,6 @@ export default function AiEmployeeModal({
   const { selectedAiEmployee,setSelectedAiEmployee, } = useAiEmployeesContext();
 
   if (!show) return null;
-  console.log(selectedAiEmployee);
 
   // return (
   //   <DotLottieReact
@@ -66,7 +65,10 @@ export default function AiEmployeeModal({
         )}
 
         {step === "success" && (
-          <SuccessMessage onClose={onClose} />
+          <SuccessMessage onClose={()=>{
+            setStep('initial')
+            onClose()
+          }} />
         )}
       </div>
     </div>
@@ -80,7 +82,7 @@ const SuccessMessage = ({ onClose }: { onClose: () => void }) => (
       <DotLottieReact src="/lottie/success.lottie" loop autoplay />
     </div>
     <p className="text-white mb-8">
-      Your AI Employee has been created successfully.
+    Your prompt has been successfully added to the Custom Value
     </p>
     <button
       onClick={onClose}

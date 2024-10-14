@@ -17,7 +17,6 @@ interface SavePromptResponse {
 
 // Fetch function for saving the generated prompt
 const saveGeneratedPrompt = async (data: SavePromptRequest): Promise<SavePromptResponse> => {
-    console.log("saving")
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_SERVER_URL}/prompt/${data.locationId}`,
     {
@@ -38,7 +37,6 @@ const saveGeneratedPrompt = async (data: SavePromptRequest): Promise<SavePromptR
 
 // React Query hook for saving the generated prompt
 export const useSavePrompt = () => {
-    console.log("run")
   return useMutation<SavePromptResponse, Error, SavePromptRequest>({
     mutationFn:saveGeneratedPrompt});
 };

@@ -4,6 +4,7 @@ import { useMutation, UseMutationResult } from "@tanstack/react-query";
 interface DeployCustomEmployeeParams {
   locationId: string;
   generatedPrompt: string;
+  ssoKey: string;
 }
 
 // Define the response type (adjust this according to your actual API response)
@@ -17,6 +18,7 @@ interface DeployCustomEmployeeResponse {
 const deployCustomEmployee = async ({
   locationId,
   generatedPrompt,
+  ssoKey
 
 }: DeployCustomEmployeeParams): Promise<DeployCustomEmployeeResponse> => {
   const response = await fetch(
@@ -29,6 +31,7 @@ const deployCustomEmployee = async ({
       body: JSON.stringify({
         name: "OpenAi Prompt",
         value: generatedPrompt,
+        ssoKey:ssoKey
         
       }),
     }

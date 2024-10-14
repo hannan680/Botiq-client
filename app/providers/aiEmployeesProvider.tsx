@@ -25,7 +25,6 @@ export const AiEmployeesProvider: React.FC<{ children: ReactNode }> = ({ childre
 
   useEffect(() => {
     if (data && data.data) {
-        console.log(data.data)
       setAiEmployees(data.data);
     }
   }, [data]);
