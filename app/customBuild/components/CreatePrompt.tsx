@@ -54,11 +54,13 @@ const CreatePrompt: React.FC = () => {
       alert('No active model selected');
       return;
     }
+if(activeModel === AiModels.CLAUDE){
 
-    if (!apiKeysData?.data.some(key => key.provider === 'CLAUDE')) {
-      alert('No API key found for Claude');
-      return;
-    }
+  if (!apiKeysData?.data.some(key => key.provider === 'CLAUDE')) {
+    alert('No API key found for Claude');
+    return;
+  }
+}
 
     const newMessage = {
       role: 'user',
