@@ -129,7 +129,10 @@ export default function Home(): JSX.Element {
 
   return (
     <>
-      {showWarning && (
+              {/* Hide This For Later Update */}
+
+      {/* {
+      showWarning && (
         <div className="fixed top-0 left-0 right-0 bg-yellow-50 border-b border-yellow-200 px-4 py-3 shadow-sm z-50">
           <div className="max-w-7xl mx-auto flex justify-between items-center">
             <div className="flex items-center">
@@ -152,7 +155,7 @@ export default function Home(): JSX.Element {
             </div>
           </div>
         </div>
-      )}
+      )} */}
 
       <div>
         <div className={`h-[700px] flex justify-center bg-app-gradient px-5 ${showWarning ? 'pt-16' : ''}`}>
@@ -179,7 +182,8 @@ Create and Test AI Prompt              </Link>
               />
             </div>
           </div>        </div>
-        <AiEmployeeGrid />
+          {/* Hide This For Later Update */}
+        {/* <AiEmployeeGrid /> */}
       </div>
 
       {showModal && (
